@@ -1,0 +1,31 @@
+containers:
+  postgres:
+    image: postgres:13.4-bullseye
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: demo
+    volumes:
+      - local: ./postgres/data
+        container: /var/lib/postgresql/data
+        options: cached
+    ports:
+      - local: 5432
+        container: 5432
+  dbt:
+    image: fishtownanalytics/dbt:1.0.0
+    volumes:
+      - local: .dbt/
+        container: /root/.dbt/
+        options: cached
+      - local: app/
+        container: /root/app
+    working_directory: /root/app/icy_dbt/
+        
+  ## Utility tasks
+tasks:
+  db:
+    description: Fire up the db once 
+    group: Utility tasks
+    run:
+      container: postgres
