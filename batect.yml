@@ -18,9 +18,9 @@ containers:
       - local: .dbt/
         container: /root/.dbt/
         options: cached
-      - local: app/
+      - local: dbt_stuff/
         container: /root/app
-    working_directory: /root/app/icy_dbt/
+    working_directory: /root/app/dbt/dbt_stuff/
   spark-iceberg:
     image: tabulario/spark-iceberg
     dependencies:
@@ -61,3 +61,13 @@ tasks:
     run:
       container: spark-iceberg
       command: pyspark-notebook
+
+  dbt:
+    description: Start dbt shell
+    group: Utility tasks
+    dependencies:
+    - postgres
+    - spark-iceberg
+    run:
+      container: dbt
+      entrypoint: sh
