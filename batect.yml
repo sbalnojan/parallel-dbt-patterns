@@ -21,26 +21,28 @@ containers:
       - local: app/
         container: /root/app
     working_directory: /root/app/icy_dbt/
-  build-env:
-    image: jupyter/minimal-notebook #jupyter/datascience-notebook
-#    working_directory: /src
-#    environment:
-#      PYTHONPATH: "/src"
-#      PYTHONUSERBASE: "/src/.pip-cache"
-#      PIPENV_VENV_IN_PROJECT: true
-#    run_as_current_user:
-#      enabled: true
-#      home_directory: /home/container-user
+  spark-iceberg:
+    image: tabulario/spark-iceberg
+    dependencies:
+      - postgres
+  #  environment:
+  #      SPARK_HOME: /opt/spark
+  #      PYSPARK_PYTON: /usr/bin/python3.9
+  #      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/spark/bin
     volumes:
-      - local: .
-        container: /home/jovyan/work
+  #    - local: ./warehouse
+  #      container: /home/iceberg/warehouse
+  #      options: cached
+      - local: ./notebooks
+        container: /home/iceberg/notebooks/notebooks
         options: cached
-#      - type: cache
-#        container: /src/.pip-cache
-#        name: pip-cache
     ports:
       - local: 8888
-        container: 8888 
+        container: 8888
+  #    - local: 8080
+  #      container: 8080
+  #    - local: 18080
+  #      container: 18080
         
        
   ## Utility tasks
@@ -52,8 +54,10 @@ tasks:
       container: postgres
 
   dev:
-    description: Start a shell in the development environment.
+    description: Start a the notebook w Spark, SQL and stuff...
     group: Utility tasks
+    dependencies:
+      - postgres
     run:
-      container: build-env
-      entrypoint: start-notebook.sh
+      container: spark-iceberg
+      command: pyspark-notebook
