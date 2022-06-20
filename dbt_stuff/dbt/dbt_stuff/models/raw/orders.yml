@@ -1,7 +1,0 @@
-sources:
-  - name: webshop
-    database: "public"
-    tables:
-      - name: orders
-      - name: customers
-      - name: mkt

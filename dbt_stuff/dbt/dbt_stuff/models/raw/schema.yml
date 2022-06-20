@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: public
+#    database: "public"
+    tables:
+      - name: source_orders
+      - name: source_customers
+      - name: source_mkt
