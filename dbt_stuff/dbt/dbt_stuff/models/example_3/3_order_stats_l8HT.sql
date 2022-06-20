@@ -13,7 +13,7 @@ with order_stats as (
     left join {{ source('public', 'source_customers') }}
         on
             {{ source('public', 'source_orders') }}.customer_id = {{ source('public', 'source_customers') }}.id
-    where {{ source('public', 'source_orders') }}.id between 30001 and 40000
+    where {{ source('public', 'source_orders') }}.id between 600001 and 800000
     group by cid, source
 ) -- have already dome some optimization, not one mega join, but a subquery...
 

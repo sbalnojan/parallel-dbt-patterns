@@ -4,11 +4,11 @@
 
 {{ config(materialized='table') }}
 with order_stats as (
-select * from {{ ref('3_order_stats_l10000') }}
-union select * from {{ ref('3_order_stats_l20000') }}
-union select * from {{ ref('3_order_stats_l30000') }}
-union select * from {{ ref('3_order_stats_l40000') }}
-union select * from {{ ref('3_order_stats_l50000') }}
+select * from {{ ref('3_order_stats_l2HT') }}
+union select * from {{ ref('3_order_stats_l4HT') }}
+union select * from {{ ref('3_order_stats_l6HT') }}
+union select * from {{ ref('3_order_stats_l8HT') }}
+union select * from {{ ref('3_order_stats_l1M') }}
 )
 select * from order_stats 
 left join
