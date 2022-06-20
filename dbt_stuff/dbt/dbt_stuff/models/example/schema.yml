@@ -1,6 +1,0 @@
-
-version: 2
-
-models:
-  - name: report_1
-    description: "A starter dbt model"

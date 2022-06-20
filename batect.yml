@@ -75,6 +75,17 @@ tasks:
       container: dbt
       entrypoint: sh
 
+  dbt_1:
+    description: Run just one model e.g. example_1
+    group: Utility tasks
+    dependencies:
+    - postgres
+    - spark-iceberg
+    run:
+      container: dbt
+      entrypoint: sh -c 'dbt run --select example_1'
+
+
   docs:
     description: Start dbt shell
     group: Utility tasks
