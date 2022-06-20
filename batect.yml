@@ -21,6 +21,9 @@ containers:
       - local: dbt_stuff/
         container: /root/app
     working_directory: /root/app/dbt/dbt_stuff/
+    ports:
+      - local: 8080
+        container: 8080
   spark-iceberg:
     image: tabulario/spark-iceberg
     dependencies:
@@ -71,3 +74,13 @@ tasks:
     run:
       container: dbt
       entrypoint: sh
+
+  docs:
+    description: Start dbt shell
+    group: Utility tasks
+    dependencies:
+    - postgres
+    - spark-iceberg
+    run:
+      container: dbt
+      entrypoint: sh -c 'dbt docs generate; dbt docs serve'
